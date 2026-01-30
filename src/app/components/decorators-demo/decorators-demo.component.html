@@ -1,0 +1,98 @@
+<div class="demo-container">
+  <h1>✨ Decorators & Metadata</h1>
+  
+  <section class="concept-section">
+    <h2>What are Decorators?</h2>
+    <p>Decorators are a TypeScript feature that allow you to annotate and modify classes, methods, properties, and parameters. They are used extensively in Angular for dependency injection, component definition, and more.</p>
+    
+    <div class="code-block">
+      <pre><code>// Decorator Syntax
+@decorator
+class MyClass {{ '{' }}
+  @propertyDecorator
+  myProperty: string;
+
+  @methodDecorator
+  myMethod() {{ '{' }}{{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Types of Decorators</h2>
+    
+    <div class="demo-box">
+      <h3>Examples:</h3>
+      <div class="examples-list">
+        <ng-container *ngFor="let example of examples()">
+          <div class="example-item">
+            <h4>{{ example.name }}</h4>
+            <p><strong>Description:</strong> {{ example.description }}</p>
+            <p><strong>Use Case:</strong> {{ example.example }}</p>
+            <details>
+              <summary>View Code</summary>
+              <pre><code>{{ example.code }}</code></pre>
+            </details>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Practical Examples</h2>
+    
+    <div class="demo-box">
+      <h3>Test Decorators</h3>
+      <button (click)="testRequired()">Test @Required Decorator</button>
+      <button (click)="testLog()">Test @Log Decorator</button>
+      <button (click)="emitEvent()">Emit Event</button>
+      <p *ngIf="eventTriggered.observers.length > 0" class="info">Event listeners are attached</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Built-in Angular Decorators</h2>
+    
+    <div class="demo-box">
+      <ul>
+        <li><code>@Component</code> - Marks a class as a component</li>
+        <li><code>@Directive</code> - Marks a class as a directive</li>
+        <li><code>@Injectable</code> - Marks a class as injectable service</li>
+        <li><code>@Input</code> - Marks a property as input from parent</li>
+        <li><code>@Output</code> - Marks a property as output event</li>
+        <li><code>@HostListener</code> - Listens to host element events</li>
+        <li><code>@HostBinding</code> - Binds to host element properties</li>
+        <li><code>@ViewChild</code> - Queries for child components</li>
+        <li><code>@ContentChild</code> - Queries for projected content</li>
+        <li><code>@Pipe</code> - Marks a class as a pipe</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Interview Questions</h2>
+    
+    <div class="faq">
+      <details>
+        <summary>Q: What's the difference between a decorator and an annotation?</summary>
+        <p><strong>A:</strong> In Angular/TypeScript context, decorators and annotations are used interchangeably. Decorators are functions that modify classes, methods, or properties. Annotations are metadata added to classes.</p>
+      </details>
+
+      <details>
+        <summary>Q: Can decorators be chained?</summary>
+        <p><strong>A:</strong> Yes, multiple decorators can be applied to a single target. They are applied from bottom to top.</p>
+      </details>
+
+      <details>
+        <summary>Q: What's the difference between @ViewChild and @ContentChild?</summary>
+        <p><strong>A:</strong> @ViewChild queries in the component's template, while @ContentChild queries in the component's projected content (ng-content).</p>
+      </details>
+
+      <details>
+        <summary>Q: How do you create a custom decorator?</summary>
+        <p><strong>A:</strong> Create a function that takes the target (class, method, property, or parameter) and modifies it using Object.defineProperty, Reflect API, or by wrapping the original function.</p>
+      </details>
+    </div>
+  </section>
+</div>

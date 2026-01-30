@@ -1,0 +1,187 @@
+<div class="demo-container">
+  <h1>🌐 HTTP Client in Angular</h1>
+  
+  <section class="concept-section">
+    <h2>What is HttpClient?</h2>
+    <p>HttpClient is Angular's service for making HTTP requests. It provides a simplified API for HTTP operations 
+    and integrates with RxJS Observables for handling async operations.</p>
+    <div class="code-block">
+      <pre><code>// Inject HttpClient
+constructor(private http: HttpClient) {{ '{}' }}
+
+// Make GET request
+this.http.get&lt;Data&gt;('url').subscribe(data => {{ '{}' }});</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>1. GET Request</h2>
+    <p>Fetch data from the server.</p>
+    
+    <div class="demo-box">
+      <h3>Posts List</h3>
+      <button (click)="loadPosts()" [disabled]="loading()">Load Posts</button>
+      
+      @if (loading()) {
+        <p class="loading">Loading...</p>
+      }
+      
+      @if (error()) {
+        <p class="error">Error: {{ error() }}</p>
+      }
+      
+      @if (posts().length > 0) {
+        <div class="posts-list">
+          @for (post of posts(); track post.id) {
+            <div class="post-card">
+              <h4>{{ post.title }}</h4>
+              <p>{{ post.body }}</p>
+              <div class="post-actions">
+                <button (click)="getPost(post.id)">View</button>
+                <button (click)="updatePost(post.id)">Update</button>
+                <button (click)="deletePost(post.id)" class="delete-btn">Delete</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. POST Request</h2>
+    <p>Create new resources on the server.</p>
+    
+    <div class="demo-box">
+      <h3>Create New Post</h3>
+      <div class="form-group">
+        <label>Title:</label>
+        <input type="text" [value]="newPost().title" 
+               (input)="updateNewPostField('title', $any($event.target).value)">
+      </div>
+      <div class="form-group">
+        <label>Body:</label>
+        <textarea [value]="newPost().body" 
+                  (input)="updateNewPostField('body', $any($event.target).value)"
+                  rows="4"></textarea>
+      </div>
+      <button (click)="createPost()" [disabled]="loading()">Create Post</button>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. PUT Request</h2>
+    <p>Update existing resources.</p>
+    
+    <div class="demo-box">
+      <h3>Update Post</h3>
+      @if (selectedPost()) {
+        <p>Click "Update" on any post to update it.</p>
+        <div class="selected-post">
+          <h4>{{ selectedPost()!.title }}</h4>
+          <p>{{ selectedPost()!.body }}</p>
+        </div>
+      } @else {
+        <p>Select a post to view details</p>
+      }
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>4. DELETE Request</h2>
+    <p>Remove resources from the server.</p>
+    
+    <div class="demo-box">
+      <h3>Delete Post</h3>
+      <p>Click "Delete" on any post to remove it.</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>5. HTTP Methods & Headers</h2>
+    
+    <div class="demo-box">
+      <h3>Common HTTP Methods</h3>
+      <ul>
+        <li><code>GET</code> - Retrieve data</li>
+        <li><code>POST</code> - Create new resource</li>
+        <li><code>PUT</code> - Update entire resource</li>
+        <li><code>PATCH</code> - Partial update</li>
+        <li><code>DELETE</code> - Remove resource</li>
+      </ul>
+    </div>
+
+    <div class="demo-box">
+      <h3>Setting Headers</h3>
+      <pre><code>const headers = new HttpHeaders({{ '{' }}
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer token'
+{{ '}' }});
+
+this.http.post(url, data, {{ '{' }} headers {{ '}' }})</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>6. Error Handling</h2>
+    
+    <div class="demo-box">
+      <h3>Error Handling with RxJS</h3>
+      <pre><code>this.http.get(url)
+  .pipe(
+    catchError(error => {{ '{' }}
+      // Handle error
+      return throwError(() => error);
+    {{ '}' }})
+  )
+  .subscribe({{ '{' }}
+    next: data => console.log(data),
+    error: err => console.error(err)
+  {{ '}' }});</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>7. RxJS Operators</h2>
+    
+    <div class="demo-box">
+      <h3>Common Operators</h3>
+      <ul>
+        <li><code>retry(n)</code> - Retry failed requests</li>
+        <li><code>catchError</code> - Handle errors</li>
+        <li><code>map</code> - Transform response</li>
+        <li><code>tap</code> - Side effects</li>
+        <li><code>switchMap</code> - Cancel previous requests</li>
+        <li><code>debounceTime</code> - Delay requests</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    
+    <div class="question-card">
+      <h3>Q: What is HttpClient in Angular?</h3>
+      <p><strong>A:</strong> HttpClient is a service provided by Angular for making HTTP requests. 
+      It returns Observables and provides methods like get(), post(), put(), delete() for different HTTP operations.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: How do you handle errors in HTTP requests?</h3>
+      <p><strong>A:</strong> Use the <code>catchError</code> operator from RxJS to handle errors. 
+      You can also use the error callback in subscribe() or handle errors globally with interceptors.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What are HTTP Interceptors?</h3>
+      <p><strong>A:</strong> Interceptors are middleware that can modify HTTP requests and responses. 
+      They're useful for adding headers, logging, error handling, authentication tokens, etc.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What's the difference between PUT and PATCH?</h3>
+      <p><strong>A:</strong> PUT replaces the entire resource, while PATCH applies a partial update. 
+      PUT is idempotent (same request = same result), PATCH may not be.</p>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,110 @@
+<div class="demo-container">
+  <h1>🔄 Change Detection Strategies</h1>
+  
+  <section class="concept-section">
+    <h2>What is Change Detection?</h2>
+    <p>Change detection is Angular's mechanism for detecting when data changes and updating the view accordingly. It's crucial for application performance.</p>
+    
+    <div class="code-block">
+      <pre><code>// Change detection happens automatically when:
+1. DOM events are fired
+2. HTTP requests complete
+3. setTimeout/setInterval callbacks execute
+4. Zone.js detects async operations</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Change Detection Strategies</h2>
+    
+    <div class="info-grid">
+      <ng-container *ngFor="let info of detectionInfo()">
+        <div class="info-card">
+          <h3>{{ info.strategy }}</h3>
+          <p><strong>Description:</strong> {{ info.description }}</p>
+          
+          <h4>Pros:</h4>
+          <ul>
+            <li *ngFor="let pro of info.pros">{{ pro }}</li>
+          </ul>
+          
+          <h4>Cons:</h4>
+          <ul>
+            <li *ngFor="let con of info.cons">{{ con }}</li>
+          </ul>
+          
+          <p><strong>Best for:</strong> {{ info.useCase }}</p>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Comparison: Default vs OnPush</h2>
+    
+    <div class="demo-box">
+      <h3>Interactive Demo</h3>
+      <p>Change count: {{ changeCount() }}</p>
+      <button (click)="simulateChange()">Simulate Change</button>
+      
+      <div class="comparison">
+        <app-change-detection-default></app-change-detection-default>
+        <app-change-detection-onpush></app-change-detection-onpush>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Best Practices</h2>
+    
+    <div class="demo-box">
+      <h4>When to use OnPush:</h4>
+      <ul>
+        <li>Large lists or tables (use trackBy with *ngFor)</li>
+        <li>Components that receive data only through @Input</li>
+        <li>Performance-critical applications</li>
+        <li>Components with complex nested structures</li>
+      </ul>
+      
+      <h4>Performance Tips:</h4>
+      <ul>
+        <li>Use OnPush change detection strategy for presentational components</li>
+        <li>Use trackBy in *ngFor with large lists</li>
+        <li>Unsubscribe from observables to prevent memory leaks</li>
+        <li>Use async pipe with OnPush for automatic change detection</li>
+        <li>Avoid changing component data directly; use signals/observables</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Interview Questions</h2>
+    
+    <div class="faq">
+      <details>
+        <summary>Q: What's the difference between Default and OnPush change detection?</summary>
+        <p><strong>A:</strong> Default strategy runs change detection on every event (CheckAlways). OnPush only runs when @Input changes or events fire in the component, improving performance.</p>
+      </details>
+
+      <details>
+        <summary>Q: When should you use ChangeDetectionStrategy.OnPush?</summary>
+        <p><strong>A:</strong> Use it for presentational/dumb components, large lists, or in performance-critical applications. It requires explicit triggering via markForCheck() or detectChanges().</p>
+      </details>
+
+      <details>
+        <summary>Q: What's the purpose of markForCheck()?</summary>
+        <p><strong>A:</strong> markForCheck() marks the component and its ancestors for check in the next change detection cycle without immediately running detection.</p>
+      </details>
+
+      <details>
+        <summary>Q: How do you manually trigger change detection?</summary>
+        <p><strong>A:</strong> Use ChangeDetectorRef.detectChanges() to immediately run change detection, or markForCheck() to mark for the next cycle.</p>
+      </details>
+
+      <details>
+        <summary>Q: What's Zone.js and how does it relate to change detection?</summary>
+        <p><strong>A:</strong> Zone.js is a library that Angular uses to intercept async operations and trigger change detection automatically.</p>
+      </details>
+    </div>
+  </section>
+</div>

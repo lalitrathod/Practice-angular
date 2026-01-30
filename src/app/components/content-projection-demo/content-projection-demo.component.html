@@ -1,0 +1,139 @@
+<div class="demo-container">
+  <h1>📦 Content Projection & ViewChild</h1>
+  
+  <section class="concept-section">
+    <h2>What is Content Projection?</h2>
+    <p>Content projection is a way to insert content from a parent component into a child component. It uses <code>ng-content</code> to define slots where content will be projected.</p>
+    
+    <div class="code-block">
+      <pre><code>// Basic ng-content
+@Component({{ '{' }}
+  selector: 'app-card',
+  template: \`&lt;div class="card"&gt;&lt;ng-content&gt;&lt;/ng-content&gt;&lt;/div&gt;\`
+{{ '}' }})
+export class CardComponent {{ '{' }}{{ '}' }}
+
+// Usage:
+&lt;app-card&gt;
+  &lt;h3&gt;Title&lt;/h3&gt;
+  &lt;p&gt;Content&lt;/p&gt;
+&lt;/app-card&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Examples of Content Projection</h2>
+    
+    <div class="demo-box">
+      <h3>Single Slot Projection</h3>
+      <app-card>
+        <h4>Card Title</h4>
+        <p>This content is projected into the card component using a single ng-content slot.</p>
+      </app-card>
+    </div>
+
+    <div class="demo-box">
+      <h3>Code Examples</h3>
+      <ng-container *ngFor="let example of examples()">
+        <div class="example-item">
+          <h4>{{ example.name }}</h4>
+          <p>{{ example.description }}</p>
+          <details>
+            <summary>View Code</summary>
+            <pre><code>{{ example.code }}</code></pre>
+          </details>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>ViewChild & ContentChild</h2>
+    
+    <div class="demo-box">
+      <h3>Difference</h3>
+      <table class="comparison-table">
+        <tr>
+          <th>Feature</th>
+          <th>@ViewChild</th>
+          <th>@ContentChild</th>
+        </tr>
+        <tr>
+          <td>Queries</td>
+          <td>Child components in template</td>
+          <td>Projected content</td>
+        </tr>
+        <tr>
+          <td>Available in</td>
+          <td>ngAfterViewInit</td>
+          <td>ngAfterContentInit</td>
+        </tr>
+        <tr>
+          <td>Use case</td>
+          <td>Access child elements/components</td>
+          <td>Access projected elements</td>
+        </tr>
+        <tr>
+          <td>Example</td>
+          <td>&lt;app-child #myChild&gt;</td>
+          <td>&lt;ng-content&gt;</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Key Concepts</h2>
+    
+    <div class="demo-box">
+      <h4>ng-content Selectors:</h4>
+      <ul>
+        <li><code>&lt;ng-content&gt;&lt;/ng-content&gt;</code> - Default slot, catches all</li>
+        <li><code>&lt;ng-content select=".header"&gt;&lt;/ng-content&gt;</code> - Class selector</li>
+        <li><code>&lt;ng-content select="[header]"&gt;&lt;/ng-content&gt;</code> - Attribute selector</li>
+        <li><code>&lt;ng-content select="app-header"&gt;&lt;/ng-content&gt;</code> - Component selector</li>
+      </ul>
+
+      <h4>@ViewChild vs @ViewChildren:</h4>
+      <ul>
+        <li><code>@ViewChild</code> - Returns first match</li>
+        <li><code>@ViewChildren</code> - Returns QueryList of all matches</li>
+        <li>Use <code>read</code> parameter to get ViewContainerRef or ElementRef</li>
+      </ul>
+
+      <h4>Lifecycle Hooks:</h4>
+      <ul>
+        <li><code>ngAfterContentInit</code> - Called after content children initialized</li>
+        <li><code>ngAfterViewInit</code> - Called after view children initialized</li>
+        <li><code>ngAfterContentChecked</code> - Called after content children checked</li>
+        <li><code>ngAfterViewChecked</code> - Called after view children checked</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Interview Questions</h2>
+    
+    <div class="faq">
+      <details>
+        <summary>Q: What's the difference between ng-content and ViewChild?</summary>
+        <p><strong>A:</strong> ng-content is used to display projected content, while @ViewChild is used to access child components/elements in TypeScript.</p>
+      </details>
+
+      <details>
+        <summary>Q: When should you use Content Projection?</summary>
+        <p><strong>A:</strong> Use it for reusable components like cards, modals, tabs, and accordions that need flexible content.</p>
+      </details>
+
+      <details>
+        <summary>Q: How do you select specific elements with ng-content?</summary>
+        <p><strong>A:</strong> Use CSS selectors in the select attribute: `&lt;ng-content select=".header"&gt;` or `&lt;ng-content select="[header]"&gt;`</p>
+      </details>
+
+      <details>
+        <summary>Q: What's the difference between ViewChild and ContentChild?</summary>
+        <p><strong>A:</strong> @ViewChild queries the component's template, while @ContentChild queries the projected content passed into the component.</p>
+      </details>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,292 @@
+<div class="demo-container">
+  <h1>⚡ Angular Signals - Complete Guide</h1>
+  
+  <section class="concept-section">
+    <h2>What are Signals?</h2>
+    <p>Signals are a reactive primitive introduced in Angular 16. They provide fine-grained reactivity, 
+    better performance, and a simpler mental model for managing state.</p>
+    <div class="code-block">
+      <pre><code>// Create a signal
+const count = signal(0);
+
+// Read a signal (use () to get value)
+console.log(count()); // 0
+
+// Update a signal
+count.set(10);
+count.update(value => value + 1);</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>1. Basic Signals (Writable Signals)</h2>
+    <p>Create signals with initial values. Use <code>set()</code> to replace, <code>update()</code> to modify.</p>
+    
+    <div class="demo-box">
+      <h3>Counter Signal</h3>
+      <p><strong>Count:</strong> {{ count() }}</p>
+      <p><strong>Double Count (Computed):</strong> {{ doubleCount() }}</p>
+      <div class="button-group">
+        <button (click)="incrementCount()">Increment</button>
+        <button (click)="decrementCount()">Decrement</button>
+        <button (click)="resetCount()">Reset</button>
+      </div>
+    </div>
+
+    <div class="demo-box">
+      <h3>User Signal</h3>
+      <p><strong>Name:</strong> {{ userName() }}</p>
+      <p><strong>Is Active:</strong> {{ isActive() ? 'Yes' : 'No' }}</p>
+      <p><strong>User Info (Computed):</strong> {{ userInfo() }}</p>
+      <div class="input-group">
+        <input type="text" [value]="userName()" (input)="setUserName($any($event.target).value)" placeholder="Enter name">
+        <button (click)="toggleActive()">Toggle Active</button>
+      </div>
+    </div>
+
+    <div class="demo-box">
+      <h3>Price with Discount (Computed)</h3>
+      <p><strong>Base Price:</strong> ${{ price() }}</p>
+      <p><strong>Is Active (10% discount):</strong> {{ isActive() ? 'Yes' : 'No' }}</p>
+      <p><strong>Total Price (Computed):</strong> ${{ totalPrice().toFixed(2) }}</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. Array Signals</h2>
+    <p>Manage arrays with signals using <code>mutate()</code> for in-place updates.</p>
+    
+    <div class="demo-box">
+      <h3>Items List</h3>
+      <p><strong>Item Count (Computed):</strong> {{ itemCount() }}</p>
+      <p><strong>Has Items (Computed):</strong> {{ hasItems() ? 'Yes' : 'No' }}</p>
+      <ul>
+        @for (item of items(); track $index) {
+          <li>
+            {{ item }}
+            <button (click)="removeItem($index)">Remove</button>
+          </li>
+        }
+      </ul>
+      <div class="input-group">
+        <input type="text" #newItem placeholder="Add new item">
+        <button (click)="addItem(newItem.value); newItem.value=''">Add Item</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. Object Signals</h2>
+    <p>Manage objects with signals. Use <code>mutate()</code> to update object properties.</p>
+    
+    <div class="demo-box">
+      <h3>User Object</h3>
+      <pre>{{ user() | json }}</pre>
+      <p><strong>Display (Computed):</strong> {{ userDisplay() }}</p>
+      <div class="input-group">
+        <input type="number" #ageInput [value]="user().age" placeholder="Age">
+        <button (click)="updateUserAge(+ageInput.value)">Update Age</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>4. Computed Signals</h2>
+    <p>Derived values that automatically update when their dependencies change.</p>
+    
+    <div class="demo-box">
+      <h3>Computed Examples</h3>
+      <ul>
+        <li><strong>Double Count:</strong> {{ doubleCount() }}</li>
+        <li><strong>User Info:</strong> {{ userInfo() }}</li>
+        <li><strong>Total Price:</strong> ${{ totalPrice().toFixed(2) }}</li>
+        <li><strong>Item Count:</strong> {{ itemCount() }}</li>
+      </ul>
+      <p class="info">💡 Computed signals are memoized and only recalculate when dependencies change!</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>5. Signal Effects</h2>
+    <p>Effects run side effects when signals change. Check the browser console!</p>
+    
+    <div class="demo-box">
+      <h3>Effect Demo</h3>
+      <p>Open browser console to see effects in action when you change signals above.</p>
+      <p>Effects automatically track signal dependencies and run when they change.</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>6. Async Operations with Signals</h2>
+    <p>Handle async operations and loading states with signals.</p>
+    
+    <div class="demo-box">
+      <h3>Data Loading</h3>
+      <p><strong>Loading:</strong> {{ loading() ? 'Yes' : 'No' }}</p>
+      @if (loading()) {
+        <p class="loading">Loading data...</p>
+      }
+      @if (data()) {
+        <pre>{{ data() | json }}</pre>
+      }
+      <button (click)="loadData()" [disabled]="loading()">Load Data</button>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>7. History Tracking with Signals</h2>
+    <p>Track changes and compute statistics using signals.</p>
+    
+    <div class="demo-box">
+      <h3>Counter with History</h3>
+      <p><strong>Current Count:</strong> {{ count() }}</p>
+      <button (click)="incrementWithHistory()">Increment & Track</button>
+      
+      @if (history().length > 0) {
+        <div class="history-section">
+          <h4>History:</h4>
+          <p>{{ history().join(', ') }}</p>
+          <h4>Statistics (Computed):</h4>
+          <ul>
+            <li>Sum: {{ historyStats().sum }}</li>
+            <li>Average: {{ historyStats().avg.toFixed(2) }}</li>
+            <li>Max: {{ historyStats().max }}</li>
+            <li>Min: {{ historyStats().min }}</li>
+          </ul>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>8. Forms with Signals</h2>
+    <p>Build reactive forms using signals for form state management.</p>
+    
+    <div class="demo-box">
+      <h3>Reactive Form</h3>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" [value]="formData().name" 
+               (input)="updateFormField('name', $any($event.target).value)">
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" [value]="formData().email" 
+               (input)="updateFormField('email', $any($event.target).value)">
+      </div>
+      <div class="form-group">
+        <label>Age:</label>
+        <input type="number" [value]="formData().age" 
+               (input)="updateFormField('age', +$any($event.target).value)">
+      </div>
+      <p><strong>Form Valid (Computed):</strong> {{ formValid() ? 'Yes' : 'No' }}</p>
+      <button (click)="submitForm()" [disabled]="!formValid()">Submit</button>
+      <pre class="form-data">{{ formData() | json }}</pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>9. Shopping Cart with Signals</h2>
+    <p>Complete state management example using signals.</p>
+    
+    <div class="demo-box">
+      <h3>Products</h3>
+      <div class="products-grid">
+        @for (product of products; track product.id) {
+          <div class="product-card">
+            <h4>{{ product.name }}</h4>
+            <p>${{ product.price }}</p>
+            <button (click)="addToCart(product)">Add to Cart</button>
+          </div>
+        }
+      </div>
+      
+      <h3>Shopping Cart</h3>
+      <p><strong>Items in Cart (Computed):</strong> {{ cartItemCount() }}</p>
+      <p><strong>Total Price (Computed):</strong> ${{ cartTotal().toFixed(2) }}</p>
+      
+      @if (cart().length > 0) {
+        <ul class="cart-items">
+          @for (item of cart(); track item.id) {
+            <li>
+              {{ item.name }} x{{ item.quantity }} - ${{ (item.price * item.quantity).toFixed(2) }}
+              <button (click)="removeFromCart(item.id)">Remove</button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p>Cart is empty</p>
+      }
+    </div>
+  </section>
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    
+    <div class="question-card">
+      <h3>Q: What are Signals in Angular?</h3>
+      <p><strong>A:</strong> Signals are a reactive primitive introduced in Angular 16 that can hold a value 
+      and notify consumers when that value changes. They provide fine-grained reactivity, better performance, 
+      and a simpler mental model compared to RxJS Observables for simple state management.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What's the difference between set(), update(), and mutate()?</h3>
+      <p><strong>A:</strong></p>
+      <ul>
+        <li><strong>set():</strong> Replaces the signal value completely</li>
+        <li><strong>update():</strong> Updates based on current value using a function</li>
+        <li><strong>mutate():</strong> Mutates objects/arrays in place (for reference types)</li>
+      </ul>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What are Computed Signals?</h3>
+      <p><strong>A:</strong> Computed signals derive values from other signals. They are memoized and only 
+      recalculate when their dependencies change. They're read-only and automatically track dependencies.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What are Effects in Signals?</h3>
+      <p><strong>A:</strong> Effects are functions that run side effects when signals change. They automatically 
+      track signal dependencies and re-run when those signals change. Use them for logging, DOM manipulation, 
+      or other side effects.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: When should I use Signals vs RxJS Observables?</h3>
+      <p><strong>A:</strong> Use Signals for simple, synchronous state management within components. 
+      Use RxJS Observables for complex async operations, streams, and when you need operators like 
+      debounce, throttle, or combineLatest. Signals and Observables can work together!</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: Are Signals better than traditional properties?</h3>
+      <p><strong>A:</strong> Signals provide automatic change detection, fine-grained reactivity, and better 
+      performance. They're especially useful for derived state (computed signals) and when you need to 
+      track changes. For simple, static values, traditional properties are still fine.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: How do Signals improve performance?</h3>
+      <p><strong>A:</strong> Signals enable fine-grained change detection. Angular only updates parts of the 
+      DOM that depend on changed signals, rather than checking the entire component tree. Computed signals 
+      are memoized, preventing unnecessary recalculations.</p>
+    </div>
+  </section>
+
+  <section class="best-practices">
+    <h2>✨ Best Practices</h2>
+    <ul>
+      <li>✅ Use signals for component state management</li>
+      <li>✅ Use computed signals for derived values</li>
+      <li>✅ Use <code>mutate()</code> for objects/arrays to maintain referential equality</li>
+      <li>✅ Keep effects minimal - use for side effects only</li>
+      <li>✅ Combine signals with RxJS when needed for complex async flows</li>
+      <li>✅ Use signals in services for shared state</li>
+      <li>❌ Don't create signals inside render functions</li>
+      <li>❌ Don't use effects for data transformation (use computed instead)</li>
+    </ul>
+  </section>
+</div>

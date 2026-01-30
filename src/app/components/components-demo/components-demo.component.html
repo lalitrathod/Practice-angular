@@ -1,0 +1,65 @@
+<div class="demo-container">
+  <h1>📦 Components & Lifecycle Hooks</h1>
+  
+  <section class="concept-section">
+    <h2>What is a Component?</h2>
+    <p>A component is a TypeScript class decorated with <code>@Component</code> that controls a view (template).</p>
+    <div class="code-block">
+      <pre><code>@Component({{ '{' }}
+  selector: 'app-my-component',
+  templateUrl: './my-component.html',
+  styleUrls: ['./my-component.scss']
+{{ '}' }})
+export class MyComponent {{ '{' }}
+  // Component logic here
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Component Properties & Signals</h2>
+    <div class="demo-box">
+      <p><strong>Title:</strong> {{ title }}</p>
+      <p><strong>Counter:</strong> {{ counter }}</p>
+      <button (click)="incrementCounter()">Increment Counter</button>
+    </div>
+
+    <div class="demo-box">
+      <h3>Using Signals (Modern Angular)</h3>
+      <p><strong>User Name:</strong> {{ userName() }}</p>
+      <p><strong>User Age:</strong> {{ userAge() }}</p>
+      <p><strong>Is Active:</strong> {{ isActive() ? 'Yes' : 'No' }}</p>
+      <p><strong>Computed Info:</strong> {{ userInfo() }}</p>
+      <div class="button-group">
+        <button (click)="updateUser()">Update User</button>
+        <button (click)="toggleActive()">Toggle Active</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>Lifecycle Hooks</h2>
+    <p>Check the browser console to see lifecycle hooks in action!</p>
+    <ul class="lifecycle-list">
+      <li><strong>constructor:</strong> Called when component is created</li>
+      <li><strong>ngOnInit:</strong> Called after component is initialized</li>
+      <li><strong>ngOnDestroy:</strong> Called when component is destroyed</li>
+    </ul>
+    <p class="message">{{ message }}</p>
+  </section>
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    <div class="question-card">
+      <h3>Q: What is the difference between constructor and ngOnInit?</h3>
+      <p><strong>A:</strong> Constructor is called when the class is instantiated (before Angular processes the component). 
+      ngOnInit is called after Angular has initialized the component's data-bound properties. 
+      Use ngOnInit for initialization logic that depends on Angular's initialization.</p>
+    </div>
+    <div class="question-card">
+      <h3>Q: What are Signals in Angular?</h3>
+      <p><strong>A:</strong> Signals (introduced in Angular 16) are a reactive primitive that can hold a value and notify 
+      consumers when that value changes. They provide fine-grained reactivity and better performance.</p>
+    </div>
+  </section>
+</div>

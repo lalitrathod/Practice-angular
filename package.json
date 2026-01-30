@@ -1,5 +1,5 @@
 {
-  "name": "practice-application",
+  "name": "practice-angular",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Practice-Application": "node dist/Practice-Application/server/server.mjs"
+    "serve:ssr:Practice-Angular": "node dist/Practice-Angular/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,

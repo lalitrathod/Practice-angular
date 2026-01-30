@@ -1,0 +1,195 @@
+<div class="demo-container">
+  <h1>🔧 Services & Dependency Injection</h1>
+  
+  <section class="concept-section">
+    <h2>What are Services?</h2>
+    <p>Services are classes that contain business logic, data access, and shared functionality. 
+    They're injected into components using Angular's Dependency Injection (DI) system.</p>
+    <div class="code-block">
+      <pre><code>@Injectable({{ '{' }}
+  providedIn: 'root' // Singleton - one instance for entire app
+{{ '}' }})
+export class MyService {{ '{' }}
+  // Service logic here
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>1. Dependency Injection Methods</h2>
+    
+    <div class="demo-box">
+      <h3>Method 1: inject() Function (Modern - Angular 14+)</h3>
+      <pre><code>export class MyComponent {{ '{' }}
+  private userService = inject(UserService);
+{{ '}' }}</code></pre>
+    </div>
+
+    <div class="demo-box">
+      <h3>Method 2: Constructor Injection (Traditional)</h3>
+      <pre><code>export class MyComponent {{ '{' }}
+  constructor(private userService: UserService) {{ '{}' }}
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. Service Providers</h2>
+    
+    <div class="demo-box">
+      <h3>providedIn: 'root' (Singleton)</h3>
+      <p>One instance shared across the entire application.</p>
+      <pre><code>@Injectable({{ '{' }} providedIn: 'root' {{ '}' }})</code></pre>
+      <p class="info">✅ Use for: Shared services, data services, utilities</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>providedIn: 'any' (Per Module)</h3>
+      <p>New instance for each lazy-loaded module.</p>
+      <pre><code>@Injectable({{ '{' }} providedIn: 'any' {{ '}' }})</code></pre>
+      <p class="info">✅ Use for: Module-specific services</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Component-Level Provider</h3>
+      <p>New instance for each component.</p>
+      <pre><code>@Component({{ '{' }}
+  providers: [LocalStorageService]
+{{ '}' }})</code></pre>
+      <p class="info">✅ Use for: Component-specific services</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. User Management Demo</h2>
+    <p>Complete CRUD operations using a service with signals.</p>
+    
+    <div class="demo-box">
+      <h3>Add New User</h3>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" [value]="newUser().name" 
+               (input)="updateNewUserField('name', $any($event.target).value)">
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" [value]="newUser().email" 
+               (input)="updateNewUserField('email', $any($event.target).value)">
+      </div>
+      <div class="form-group">
+        <label>Role:</label>
+        <select [value]="newUser().role" 
+                (change)="updateNewUserField('role', $any($event.target).value)">
+          <option value="User">User</option>
+          <option value="Admin">Admin</option>
+        </select>
+      </div>
+      <button (click)="addUser()">Add User</button>
+    </div>
+
+    <div class="demo-box">
+      <h3>Users List</h3>
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user.id) {
+            <tr [class.selected]="selectedUserId() === user.id">
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role }}</td>
+              <td>
+                <button (click)="selectUser(user)">Select</button>
+                <button (click)="updateUser(user.id)">Update</button>
+                <button (click)="deleteUser(user.id)">Delete</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="demo-box">
+      <h3>Current Selected User</h3>
+      @if (currentUser()) {
+        <div class="current-user">
+          <p><strong>Name:</strong> {{ currentUser()!.name }}</p>
+          <p><strong>Email:</strong> {{ currentUser()!.email }}</p>
+          <p><strong>Role:</strong> {{ currentUser()!.role }}</p>
+          <button (click)="clearSelection()">Clear Selection</button>
+        </div>
+      } @else {
+        <p>No user selected</p>
+      }
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>4. Service Logging</h2>
+    <p>LoggerService tracks all operations.</p>
+    
+    <div class="demo-box">
+      <h3>Service Logs</h3>
+      <div class="logs-container">
+        @for (log of getLogs(); track $index) {
+          <div class="log-entry">{{ log }}</div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    
+    <div class="question-card">
+      <h3>Q: What is Dependency Injection in Angular?</h3>
+      <p><strong>A:</strong> Dependency Injection is a design pattern where dependencies are provided to a class 
+      rather than the class creating them itself. Angular's DI system automatically resolves and injects 
+      dependencies, making code more testable and maintainable.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What's the difference between providedIn: 'root' and providedIn: 'any'?</h3>
+      <p><strong>A:</strong></p>
+      <ul>
+        <li><strong>providedIn: 'root':</strong> Creates a singleton service instance shared across the entire app</li>
+        <li><strong>providedIn: 'any':</strong> Creates a new instance for each lazy-loaded module</li>
+        <li><strong>Component providers:</strong> Creates a new instance for each component</li>
+      </ul>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What's the difference between inject() and constructor injection?</h3>
+      <p><strong>A:</strong> Both achieve the same result. <code>inject()</code> is a functional approach 
+      (Angular 14+) that can be used in class fields, while constructor injection is the traditional method. 
+      <code>inject()</code> is more flexible and can be used outside constructors.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: When should you use a service?</h3>
+      <p><strong>A:</strong> Use services for:</p>
+      <ul>
+        <li>Shared business logic</li>
+        <li>Data access and API calls</li>
+        <li>State management</li>
+        <li>Cross-component communication</li>
+        <li>Reusable utilities</li>
+      </ul>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: How does Angular's DI system work?</h3>
+      <p><strong>A:</strong> Angular maintains an injector hierarchy. When a component requests a dependency, 
+      Angular looks up the injector tree starting from the component, then parent components, then modules, 
+      until it finds a provider. If not found, it throws an error.</p>
+    </div>
+  </section>
+</div>

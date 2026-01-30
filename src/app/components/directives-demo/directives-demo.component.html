@@ -1,0 +1,143 @@
+<div class="demo-container">
+  <h1>🎯 Directives in Angular</h1>
+  
+  <section class="concept-section">
+    <h2>1. Structural Directives</h2>
+    <p>Structural directives change the DOM structure by adding or removing elements.</p>
+    
+    <div class="demo-box">
+      <h3>*ngIf - Conditional Rendering</h3>
+      <button (click)="toggleMessage()">Toggle Message</button>
+      @if (showMessage) {
+        <p class="success-message">This message is shown conditionally!</p>
+      } @else {
+        <p class="info-message">Message is hidden.</p>
+      }
+      
+      <h4>Role-based display:</h4>
+      @if (userRole === 'admin') {
+        <p class="admin-badge">Admin Panel</p>
+      } @else if (userRole === 'user') {
+        <p>User Dashboard</p>
+      } @else {
+        <p>Guest View</p>
+      }
+    </div>
+
+    <div class="demo-box">
+      <h3>*ngFor - List Rendering</h3>
+      <ul>
+        @for (item of items; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+      <button (click)="addItem()">Add Item</button>
+      
+      <h4>With Index:</h4>
+      <ul>
+        @for (item of items; track item; let i = $index) {
+          <li>{{ i + 1 }}. {{ item }} 
+            <button (click)="removeItem(i)">Remove</button>
+          </li>
+        }
+      </ul>
+      
+      <h4>Complex Objects with trackBy:</h4>
+      <ul>
+        @for (user of users; track trackByUserId($index, user)) {
+          <li>{{ user.name }} ({{ user.age }}) - {{ user.role }}</li>
+        }
+      </ul>
+    </div>
+
+    <div class="demo-box">
+      <h3>*ngSwitch - Multiple Conditions</h3>
+      <div class="view-selector">
+        <button (click)="selectedView = 'list'">List</button>
+        <button (click)="selectedView = 'grid'">Grid</button>
+        <button (click)="selectedView = 'card'">Card</button>
+      </div>
+      
+      @switch (selectedView) {
+        @case ('list') {
+          <div class="view-display">📋 List View</div>
+        }
+        @case ('grid') {
+          <div class="view-display">🔲 Grid View</div>
+        }
+        @case ('card') {
+          <div class="view-display">🃏 Card View</div>
+        }
+        @default {
+          <div class="view-display">Select a view</div>
+        }
+      }
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. Attribute Directives</h2>
+    <p>Attribute directives change the appearance or behavior of elements.</p>
+    
+    <div class="demo-box">
+      <h3>[ngClass] - Dynamic CSS Classes</h3>
+      <p [ngClass]="{
+        'active': isActive,
+        'disabled': isDisabled,
+        'success': status === 'success',
+        'error': status === 'error'
+      }">
+        This paragraph has dynamic classes
+      </p>
+      <button (click)="isActive = !isActive">Toggle Active</button>
+      <button (click)="status = status === 'success' ? 'error' : 'success'">Toggle Status</button>
+    </div>
+
+    <div class="demo-box">
+      <h3>[ngStyle] - Dynamic Inline Styles</h3>
+      <p [ngStyle]="{
+        'font-size.px': fontSize,
+        'color': textColor,
+        'font-weight': 'bold'
+      }">
+        This text has dynamic styles
+      </p>
+      <button (click)="fontSize = fontSize + 2">Increase Font</button>
+      <button (click)="fontSize = fontSize - 2">Decrease Font</button>
+      <button (click)="textColor = textColor === 'blue' ? 'red' : 'blue'">Toggle Color</button>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. Custom Directive</h2>
+    <p>We created a custom highlight directive!</p>
+    <div class="demo-box">
+      <p [appHighlight]="highlightColor" [defaultColor]="'lightgray'">
+        This paragraph uses a custom highlight directive
+      </p>
+      <input type="color" [(ngModel)]="highlightColor" [value]="highlightColor">
+      <p>Selected color: {{ highlightColor }}</p>
+    </div>
+  </section>
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    <div class="question-card">
+      <h3>Q: What's the difference between *ngIf and [hidden]?</h3>
+      <p><strong>A:</strong> *ngIf removes the element from the DOM, while [hidden] just hides it with CSS. 
+      Use *ngIf when you want to conditionally render elements (better performance). 
+      Use [hidden] when you need to keep the element in the DOM but hide it.</p>
+    </div>
+    <div class="question-card">
+      <h3>Q: Why use trackBy in *ngFor?</h3>
+      <p><strong>A:</strong> trackBy helps Angular identify which items have changed, added, or removed. 
+      This improves performance by reusing DOM elements instead of recreating them, 
+      especially important for large lists.</p>
+    </div>
+    <div class="question-card">
+      <h3>Q: What are structural vs attribute directives?</h3>
+      <p><strong>A:</strong> Structural directives (*ngIf, *ngFor, *ngSwitch) change the DOM structure. 
+      Attribute directives ([ngClass], [ngStyle]) change the appearance or behavior of existing elements.</p>
+    </div>
+  </section>
+</div>

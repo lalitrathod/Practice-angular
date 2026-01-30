@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "Practice-Application": {
+    "Practice-Angular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,10 +66,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Practice-Application:build:production"
+              "buildTarget": "Practice-Angular:build:production"
             },
             "development": {
-              "buildTarget": "Practice-Application:build:development"
+              "buildTarget": "Practice-Angular:build:development"
             }
           },
           "defaultConfiguration": "development"

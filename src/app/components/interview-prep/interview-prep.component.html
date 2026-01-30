@@ -1,0 +1,118 @@
+<div class="demo-container">
+  <h1>💼 Angular Interview Preparation</h1>
+  
+  <section class="concept-section">
+    <h2>Comprehensive Interview Questions</h2>
+    <p>Practice common Angular interview questions categorized by topic and difficulty level.</p>
+    
+    <div class="filters">
+      <div class="category-filter">
+        <label>Category:</label>
+        <select [value]="selectedCategory()" (change)="selectCategory($any($event.target).value)">
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+      
+      <div class="search-filter">
+        <label>Search:</label>
+        <input type="text" 
+               [value]="searchTerm()" 
+               (input)="onSearchChange($any($event.target).value)"
+               placeholder="Search questions...">
+      </div>
+    </div>
+    
+    <div class="stats">
+      <p><strong>{{ filteredQuestions().length }}</strong> questions found</p>
+    </div>
+  </section>
+
+  <div class="questions-layout">
+    <div class="questions-list">
+      <h3>Questions</h3>
+      @if (filteredQuestions().length > 0) {
+        @for (q of filteredQuestions(); track q.id) {
+          <div class="question-item" 
+               [class.selected]="selectedQuestion()?.id === q.id"
+               (click)="selectQuestion(q)">
+            <div class="question-header">
+              <span class="difficulty-badge" 
+                    [style.background-color]="getDifficultyColor(q.difficulty)">
+                {{ q.difficulty }}
+              </span>
+              <span class="category-badge">{{ q.category }}</span>
+            </div>
+            <p class="question-text">{{ q.question }}</p>
+          </div>
+        }
+      } @else {
+        <p class="no-results">No questions found. Try a different search term or category.</p>
+      }
+    </div>
+    
+    <div class="answer-panel">
+      @if (selectedQuestion()) {
+        <div class="answer-card">
+          <div class="answer-header">
+            <h3>Question</h3>
+            <span class="difficulty-badge" 
+                  [style.background-color]="getDifficultyColor(selectedQuestion()!.difficulty)">
+              {{ selectedQuestion()!.difficulty }}
+            </span>
+          </div>
+          <p class="question-text">{{ selectedQuestion()!.question }}</p>
+          
+          <div class="answer-section">
+            <h3>Answer</h3>
+            <div class="answer-content">
+              <pre>{{ selectedQuestion()!.answer }}</pre>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="placeholder">
+          <p>Select a question to view the answer</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <section class="tips-section">
+    <h2>💡 Interview Tips</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <h3>Before the Interview</h3>
+        <ul>
+          <li>Review core Angular concepts</li>
+          <li>Practice coding examples</li>
+          <li>Prepare questions about the company</li>
+          <li>Review your projects</li>
+        </ul>
+      </div>
+      
+      <div class="tip-card">
+        <h3>During the Interview</h3>
+        <ul>
+          <li>Think out loud</li>
+          <li>Ask clarifying questions</li>
+          <li>Start with a simple solution</li>
+          <li>Discuss trade-offs</li>
+        </ul>
+      </div>
+      
+      <div class="tip-card">
+        <h3>Common Topics</h3>
+        <ul>
+          <li>Component lifecycle</li>
+          <li>Change detection</li>
+          <li>Dependency Injection</li>
+          <li>RxJS and Observables</li>
+          <li>Routing and Guards</li>
+          <li>Forms and Validation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>

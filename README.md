@@ -1,4 +1,6 @@
-# PracticeApplication
+# Practice-Angular
+
+A comprehensive Angular learning hub covering fundamentals to expert-level topics with hands-on practical examples.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
 

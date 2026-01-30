@@ -1,0 +1,146 @@
+.demo-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  color: #1976d2;
+  margin-bottom: 2rem;
+}
+
+.concept-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  h2 {
+    color: #1976d2;
+    margin-bottom: 1rem;
+  }
+}
+
+.demo-box {
+  background: #f9f9f9;
+  border-left: 4px solid #1976d2;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  
+  .angular-logo {
+    width: 100px;
+    height: auto;
+  }
+  
+  button {
+    background: #1976d2;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0.25rem;
+    
+    &:hover:not(:disabled) {
+      background: #1565c0;
+    }
+    
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  }
+  
+  input, select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+    width: 200px;
+  }
+}
+
+.mouse-tracker {
+  background: #e3f2fd;
+  padding: 2rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  text-align: center;
+  cursor: crosshair;
+}
+
+.form-group {
+  margin: 1rem 0;
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+}
+
+.highlight {
+  background-color: yellow;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.calculator {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  
+  input {
+    width: 100px;
+  }
+  
+  .result {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1976d2;
+    margin: 0;
+  }
+}
+
+.interview-questions {
+  background: #fff3e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  
+  h2 {
+    color: #e65100;
+    margin-bottom: 1rem;
+  }
+}
+
+.question-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  
+  h3 {
+    color: #e65100;
+    margin-bottom: 0.5rem;
+  }
+  
+  p, ul {
+    line-height: 1.6;
+  }
+  
+  ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+}

@@ -1,0 +1,203 @@
+<div class="demo-container">
+  <h1>🔄 RxJS & Observables</h1>
+  
+  <section class="concept-section">
+    <h2>What is RxJS?</h2>
+    <p>RxJS (Reactive Extensions for JavaScript) is a library for reactive programming using Observables. 
+    It's the foundation for handling async operations in Angular.</p>
+    <div class="code-block">
+      <pre><code>// Observable emits values over time
+const observable = new Observable(observer => {{ '{' }}
+  observer.next(1);
+  observer.next(2);
+  observer.complete();
+{{ '}' }});
+
+observable.subscribe(value => console.log(value));</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>1. Observables vs Promises</h2>
+    
+    <div class="demo-box">
+      <h3>Observable</h3>
+      <ul>
+        <li>Can emit multiple values</li>
+        <li>Lazy (only executes when subscribed)</li>
+        <li>Cancellable</li>
+        <li>Supports operators</li>
+      </ul>
+    </div>
+
+    <div class="demo-box">
+      <h3>Promise</h3>
+      <ul>
+        <li>Emits single value</li>
+        <li>Eager (executes immediately)</li>
+        <li>Not cancellable</li>
+        <li>No operators</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. Creating Observables</h2>
+    
+    <div class="demo-box">
+      <h3>of() - Emit values</h3>
+      <pre><code>of(1, 2, 3).subscribe(value => console.log(value));
+// Output: 1, 2, 3</code></pre>
+    </div>
+
+    <div class="demo-box">
+      <h3>interval() - Emit at intervals</h3>
+      <p><strong>Count:</strong> {{ count() }}</p>
+      <pre><code>interval(1000).subscribe(value => console.log(value));
+// Output: 0, 1, 2, 3... every second</code></pre>
+    </div>
+
+    <div class="demo-box">
+      <h3>fromEvent() - From DOM events</h3>
+      <pre><code>fromEvent(button, 'click').subscribe(event => {{ '{}' }});</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. RxJS Operators</h2>
+    
+    <div class="demo-box">
+      <h3>Transformation Operators</h3>
+      <ul>
+        <li><code>map</code> - Transform each value</li>
+        <li><code>pluck</code> - Extract property</li>
+        <li><code>scan</code> - Accumulate values</li>
+        <li><code>switchMap</code> - Switch to new observable</li>
+        <li><code>mergeMap</code> - Merge observables</li>
+      </ul>
+    </div>
+
+    <div class="demo-box">
+      <h3>Filtering Operators</h3>
+      <ul>
+        <li><code>filter</code> - Filter values</li>
+        <li><code>take</code> - Take first N values</li>
+        <li><code>skip</code> - Skip first N values</li>
+        <li><code>distinctUntilChanged</code> - Remove duplicates</li>
+        <li><code>debounceTime</code> - Delay emissions</li>
+      </ul>
+    </div>
+
+    <div class="demo-box">
+      <h3>Combination Operators</h3>
+      <ul>
+        <li><code>combineLatest</code> - Combine latest values</li>
+        <li><code>merge</code> - Merge observables</li>
+        <li><code>concat</code> - Concatenate observables</li>
+        <li><code>zip</code> - Pair values</li>
+      </ul>
+    </div>
+
+    <div class="demo-box">
+      <h3>Error Handling</h3>
+      <ul>
+        <li><code>catchError</code> - Handle errors</li>
+        <li><code>retry</code> - Retry on error</li>
+        <li><code>retryWhen</code> - Retry with condition</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>4. Subjects</h2>
+    <p>Subjects are both Observable and Observer. They can multicast values to multiple subscribers.</p>
+    
+    <div class="demo-box">
+      <h3>Subject Types</h3>
+      <ul>
+        <li><strong>Subject:</strong> No initial value, no replay</li>
+        <li><strong>BehaviorSubject:</strong> Has initial value, replays to new subscribers</li>
+        <li><strong>ReplaySubject:</strong> Replays N values to new subscribers</li>
+        <li><strong>AsyncSubject:</strong> Emits only last value on completion</li>
+      </ul>
+      
+      <button (click)="sendMessage()">Send Message via Subject</button>
+      @if (subjectMessages().length > 0) {
+        <ul>
+          @for (msg of subjectMessages(); track $index) {
+            <li>{{ msg }}</li>
+          }
+        </ul>
+      }
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>5. Search with Debounce</h2>
+    
+    <div class="demo-box">
+      <h3>Search Input</h3>
+      <input type="text" placeholder="Search..." (input)="onSearchInput($event)">
+      <p><strong>Search Term:</strong> {{ searchTerm() }}</p>
+      <p class="info">💡 Check console to see debounced search results</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>6. Combine Latest</h2>
+    
+    <div class="demo-box">
+      <h3>Combined Value</h3>
+      <p>{{ combinedValue() }}</p>
+      <button (click)="combineObservables()">Combine Observables</button>
+    </div>
+  </section>
+
+  @if (errorMessage()) {
+    <section class="concept-section">
+      <h2>7. Error Handling</h2>
+      <div class="demo-box">
+        <p class="error">Error: {{ errorMessage() }}</p>
+        <button (click)="demonstrateErrorHandling()">Demonstrate Error Handling</button>
+      </div>
+    </section>
+  }
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    
+    <div class="question-card">
+      <h3>Q: What's the difference between Observable and Promise?</h3>
+      <p><strong>A:</strong> Observables can emit multiple values over time, are lazy and cancellable, 
+      and support operators. Promises emit a single value, execute immediately, and are not cancellable.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What are RxJS Operators?</h3>
+      <p><strong>A:</strong> Operators are functions that transform, filter, or combine Observables. 
+      They're pure functions that return new Observables. Examples: map, filter, switchMap, debounceTime.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What's the difference between switchMap and mergeMap?</h3>
+      <p><strong>A:</strong></p>
+      <ul>
+        <li><strong>switchMap:</strong> Cancels previous inner observables, only latest emits</li>
+        <li><strong>mergeMap:</strong> Merges all inner observables, all emit concurrently</li>
+      </ul>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What are Subjects?</h3>
+      <p><strong>A:</strong> Subjects are both Observable and Observer. They can multicast values to 
+      multiple subscribers. BehaviorSubject holds current value, ReplaySubject replays values.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: How do you prevent memory leaks with Observables?</h3>
+      <p><strong>A:</strong> Always unsubscribe from Observables. Use <code>takeUntil</code> operator 
+      with a Subject, or implement OnDestroy and call unsubscribe(). In templates, use async pipe 
+      which automatically unsubscribes.</p>
+    </div>
+  </section>
+</div>

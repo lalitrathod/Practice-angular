@@ -1,0 +1,232 @@
+<div class="route-guards-container">
+  <h1>🛡️ Route Guards & Authorization</h1>
+  
+  <p class="intro-text">
+    Route Guards control access to routes and perform actions during navigation. They allow you to authenticate users, check permissions, prevent unsaved data loss, and pre-fetch data before displaying components.
+  </p>
+
+  <!-- Interactive Demo -->
+  <section class="demo-section">
+    <h2>Interactive Guard Simulation</h2>
+    <div class="demo-app">
+      <div class="auth-section">
+        <h3>Authentication Status</h3>
+        <div class="status-panel">
+          <div class="status-item">
+            <span class="label">Authenticated:</span>
+            <span class="value" [class.yes]="isAuthenticated" [class.no]="!isAuthenticated">
+              {{ isAuthenticated ? '✓ Yes' : '✗ No' }}
+            </span>
+          </div>
+          <div class="status-item">
+            <span class="label">Current Role:</span>
+            <span class="value role">{{ userRole }}</span>
+          </div>
+          <div class="status-item">
+            <span class="label">Has Admin:</span>
+            <span class="value" [class.yes]="hasAdminRole" [class.no]="!hasAdminRole">
+              {{ hasAdminRole ? '✓ Yes' : '✗ No' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button (click)="isAuthenticated = !isAuthenticated" class="btn-toggle">
+            {{ isAuthenticated ? 'Logout' : 'Login' }}
+          </button>
+          <button (click)="userRole = 'guest'" [disabled]="userRole === 'guest'" class="btn-role">
+            Be Guest
+          </button>
+          <button (click)="userRole = 'user'; hasAdminRole = false" [disabled]="userRole === 'user'" class="btn-role">
+            Be User
+          </button>
+          <button (click)="userRole = 'admin'; hasAdminRole = true" [disabled]="userRole === 'admin'" class="btn-role">
+            Be Admin
+          </button>
+        </div>
+      </div>
+
+      <div class="routes-section">
+        <h3>Route Access Simulation</h3>
+        <div class="routes-grid">
+          <div class="route-card">
+            <h4>🏠 Dashboard</h4>
+            <p class="route-desc">No guard - always accessible</p>
+            <div class="access-badge" [class.allowed]="true">✓ Accessible</div>
+          </div>
+
+          <div class="route-card">
+            <h4>👤 Profile</h4>
+            <p class="route-desc">Requires authentication</p>
+            <div class="access-badge" [class.allowed]="isAuthenticated" [class.denied]="!isAuthenticated">
+              {{ isAuthenticated ? '✓ Accessible' : '✗ Blocked' }}
+            </div>
+            <p class="requirement">@canActivate: [authGuard]</p>
+          </div>
+
+          <div class="route-card">
+            <h4>⚙️ Settings</h4>
+            <p class="route-desc">Requires authentication & user role</p>
+            <div class="access-badge" [class.allowed]="isAuthenticated && userRole !== 'guest'" 
+                 [class.denied]="!isAuthenticated || userRole === 'guest'">
+              {{ (isAuthenticated && userRole !== 'guest') ? '✓ Accessible' : '✗ Blocked' }}
+            </div>
+            <p class="requirement">@canActivate: [authGuard, roleGuard]</p>
+          </div>
+
+          <div class="route-card">
+            <h4>👑 Admin Panel</h4>
+            <p class="route-desc">Requires admin role</p>
+            <div class="access-badge" [class.allowed]="hasAdminRole" [class.denied]="!hasAdminRole">
+              {{ hasAdminRole ? '✓ Accessible' : '✗ Blocked' }}
+            </div>
+            <p class="requirement">@canActivate: [authGuard, adminGuard]</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guard Types -->
+  <section class="guard-types-section">
+    <h2>📋 Types of Route Guards</h2>
+    
+    <div class="guard-types-grid">
+      <div class="guard-type-card">
+        <h3>canActivate</h3>
+        <p>Determines if a route can be accessed. Most common guard type.</p>
+        <ul>
+          <li>Check authentication</li>
+          <li>Check authorization/roles</li>
+          <li>Validate permissions</li>
+        </ul>
+      </div>
+
+      <div class="guard-type-card">
+        <h3>canDeactivate</h3>
+        <p>Prevents navigation away from a component (e.g., unsaved changes).</p>
+        <ul>
+          <li>Warn about unsaved changes</li>
+          <li>Save state before leaving</li>
+          <li>Prevent accidental navigation</li>
+        </ul>
+      </div>
+
+      <div class="guard-type-card">
+        <h3>canMatch</h3>
+        <p>Routes only match if guard returns true (feature flags).</p>
+        <ul>
+          <li>Feature flag management</li>
+          <li>A/B testing routes</li>
+          <li>Conditional routing</li>
+        </ul>
+      </div>
+
+      <div class="guard-type-card">
+        <h3>resolve</h3>
+        <p>Pre-fetches data before component is loaded.</p>
+        <ul>
+          <li>Load data before navigation</li>
+          <li>Wait for data to resolve</li>
+          <li>Avoid loading states</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code Examples -->
+  <section class="code-section">
+    <h2>📚 Code Examples</h2>
+
+    <div class="example-card">
+      <h3>1. canActivate Guard</h3>
+      <p>Protect routes by checking authentication or authorization</p>
+      <pre><code>{{ codeExamples.canActivateGuard }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>2. canDeactivate Guard</h3>
+      <p>Prevent navigation when there are unsaved changes</p>
+      <pre><code>{{ codeExamples.canDeactivateGuard }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>3. canMatch Guard</h3>
+      <p>Control route matching with feature flags</p>
+      <pre><code>{{ codeExamples.canMatchGuard }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>4. Resolve Guard</h3>
+      <p>Pre-fetch data before route activation</p>
+      <pre><code>{{ codeExamples.resolverGuard }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>5. Guard Composition</h3>
+      <p>Combine multiple guards for complex access control</p>
+      <pre><code>{{ codeExamples.guardComposition }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>6. Functional Guards</h3>
+      <p>Modern guard implementation with dependency injection</p>
+      <pre><code>{{ codeExamples.functionGuard }}</code></pre>
+    </div>
+  </section>
+
+  <!-- Best Practices -->
+  <section class="best-practices-section">
+    <h2>🎯 Best Practices</h2>
+    
+    <ul class="practices-list">
+      <li><strong>Keep guards simple:</strong> Each guard should have a single responsibility</li>
+      <li><strong>Use functional guards:</strong> Modern approach, simpler than class-based guards</li>
+      <li><strong>Compose guards:</strong> Combine multiple guards for complex logic</li>
+      <li><strong>Handle errors gracefully:</strong> Redirect to appropriate pages on denial</li>
+      <li><strong>Provide feedback:</strong> Show messages when access is denied</li>
+      <li><strong>Use resolvers for data:</strong> Pre-fetch data to avoid loading states</li>
+      <li><strong>Check permissions on backend:</strong> Never rely only on frontend guards</li>
+      <li><strong>Cache auth state:</strong> Use signals for auth status to avoid repeated checks</li>
+      <li><strong>Test guards thoroughly:</strong> Test all guard scenarios and edge cases</li>
+      <li><strong>Log guard events:</strong> Track when guards block navigation for debugging</li>
+    </ul>
+  </section>
+
+  <!-- Common Patterns -->
+  <section class="patterns-section">
+    <h2>⭐ Common Patterns</h2>
+    
+    <div class="pattern-cards">
+      <div class="pattern-card">
+        <h3>Authentication Guard</h3>
+        <p>Redirects unauthenticated users to login page with return URL</p>
+      </div>
+
+      <div class="pattern-card">
+        <h3>Role-Based Guard</h3>
+        <p>Checks user roles and permissions before allowing access</p>
+      </div>
+
+      <div class="pattern-card">
+        <h3>Unsaved Changes Guard</h3>
+        <p>Warns users before leaving a form with unsaved changes</p>
+      </div>
+
+      <div class="pattern-card">
+        <h3>Feature Flag Guard</h3>
+        <p>Shows/hides routes based on feature flags or configuration</p>
+      </div>
+
+      <div class="pattern-card">
+        <h3>Data Resolver</h3>
+        <p>Loads required data before component initialization</p>
+      </div>
+
+      <div class="pattern-card">
+        <h3>Nested Route Protection</h3>
+        <p>Protects entire route hierarchies with parent guards</p>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,258 @@
+<div class="testing-container">
+  <h1>🧪 Testing in Angular</h1>
+  
+  <p class="intro-text">
+    Testing is essential for building reliable applications. Learn how to write unit tests, integration tests, and E2E tests for Angular components and services using Jasmine, Karma, and Cypress.
+  </p>
+
+  <!-- Types of Tests -->
+  <section class="tests-section">
+    <h2>📊 Types of Tests</h2>
+    
+    <div class="test-types-grid">
+      <div class="test-type-card">
+        <h3>⚙️ Unit Tests</h3>
+        <p>Test individual functions, components, and services in isolation.</p>
+        <ul>
+          <li>Fast execution</li>
+          <li>Test one thing</li>
+          <li>Use mocks/stubs</li>
+          <li>High coverage (80%+)</li>
+        </ul>
+      </div>
+
+      <div class="test-type-card">
+        <h3>🔗 Integration Tests</h3>
+        <p>Test how multiple components and services work together.</p>
+        <ul>
+          <li>Real dependencies</li>
+          <li>Test interactions</li>
+          <li>Test data flow</li>
+          <li>Moderate speed</li>
+        </ul>
+      </div>
+
+      <div class="test-type-card">
+        <h3>🚀 E2E Tests</h3>
+        <p>Test the entire application workflow from user perspective.</p>
+        <ul>
+          <li>Full browser simulation</li>
+          <li>Real user flows</li>
+          <li>Slower execution</li>
+          <li>Critical path testing</li>
+        </ul>
+      </div>
+
+      <div class="test-type-card">
+        <h3>📐 Performance Tests</h3>
+        <p>Measure and optimize application performance.</p>
+        <ul>
+          <li>Load time metrics</li>
+          <li>Memory usage</li>
+          <li>Rendering speed</li>
+          <li>Bundle analysis</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Test Pyramid -->
+  <section class="pyramid-section">
+    <h2>🔺 Testing Pyramid</h2>
+    <div class="pyramid">
+      <div class="pyramid-level level-1">
+        <span class="pyramid-label">E2E Tests (10%)</span>
+        <span class="pyramid-desc">Slow, realistic</span>
+      </div>
+      <div class="pyramid-level level-2">
+        <span class="pyramid-label">Integration Tests (20%)</span>
+        <span class="pyramid-desc">Medium speed</span>
+      </div>
+      <div class="pyramid-level level-3">
+        <span class="pyramid-label">Unit Tests (70%)</span>
+        <span class="pyramid-desc">Fast, isolated</span>
+      </div>
+    </div>
+    <p class="pyramid-note">Write more unit tests, fewer E2E tests. The pyramid represents the ideal distribution.</p>
+  </section>
+
+  <!-- Testing Tools -->
+  <section class="tools-section">
+    <h2>🛠️ Testing Tools</h2>
+    
+    <div class="tools-grid">
+      <div class="tool-card">
+        <h3>Jasmine</h3>
+        <p>Testing framework for JavaScript/Angular. Provides test structure and assertions.</p>
+        <pre><code>{{ 'it("should test", () => {\n  expect(value).toBe(expected);\n})' }}</code></pre>
+      </div>
+
+      <div class="tool-card">
+        <h3>Karma</h3>
+        <p>Test runner that executes Jasmine tests in real browsers.</p>
+        <pre><code>{{ 'ng test\n# Runs tests in watch mode' }}</code></pre>
+      </div>
+
+      <div class="tool-card">
+        <h3>TestBed</h3>
+        <p>Angular testing utility for configuring test module with dependencies.</p>
+        <pre><code>{{ 'TestBed.configureTestingModule({\n  imports: [MyComponent]\n})' }}</code></pre>
+      </div>
+
+      <div class="tool-card">
+        <h3>Cypress</h3>
+        <p>Modern E2E testing framework with great developer experience.</p>
+        <pre><code>{{ 'cy.visit(\'/page\');\ncy.get(\'.button\').click();' }}</code></pre>
+      </div>
+
+      <div class="tool-card">
+        <h3>HttpTestingController</h3>
+        <p>Mock HTTP requests in tests without actual network calls.</p>
+        <pre><code>{{ 'httpMock.expectOne("/api")\n  .flush(mockData)' }}</code></pre>
+      </div>
+
+      <div class="tool-card">
+        <h3>NgZone</h3>
+        <p>Control Angular zone for async operation testing.</p>
+        <pre><code>{{ 'ngZone.run(() => { });\nngZone.onStable' }}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code Examples -->
+  <section class="code-section">
+    <h2>📚 Code Examples</h2>
+
+    <div class="example-card">
+      <h3>1. Basic Component Test</h3>
+      <p>Test a simple component with TestBed</p>
+      <pre><code>{{ codeExamples.basicTest }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>2. Service Test with HTTP Mocking</h3>
+      <p>Test service with HttpTestingController</p>
+      <pre><code>{{ codeExamples.serviceTest }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>3. Component with Input</h3>
+      <p>Test input properties and property changes</p>
+      <pre><code>{{ codeExamples.componentWithInput }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>4. Signal Testing</h3>
+      <p>Test Angular Signals and computed values</p>
+      <pre><code>{{ codeExamples.signalTest }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>5. E2E Test with Cypress</h3>
+      <p>Test full user workflows</p>
+      <pre><code>{{ codeExamples.e2eTest }}</code></pre>
+    </div>
+
+    <div class="example-card">
+      <h3>6. Mocking Services</h3>
+      <p>Use mock services for isolated testing</p>
+      <pre><code>{{ codeExamples.mockingService }}</code></pre>
+    </div>
+  </section>
+
+  <!-- Best Practices -->
+  <section class="best-practices-section">
+    <h2>🎯 Best Practices</h2>
+    
+    <div class="practices-columns">
+      <div class="practices-column">
+        <h3>Unit Testing</h3>
+        <ul>
+          <li>Test one thing per test</li>
+          <li>Use meaningful test names</li>
+          <li>Mock external dependencies</li>
+          <li>Test edge cases</li>
+          <li>Aim for 80%+ coverage</li>
+          <li>Keep tests fast</li>
+        </ul>
+      </div>
+
+      <div class="practices-column">
+        <h3>Component Testing</h3>
+        <ul>
+          <li>Test inputs and outputs</li>
+          <li>Test user interactions</li>
+          <li>Test template logic</li>
+          <li>Test change detection</li>
+          <li>Test lifecycle hooks</li>
+          <li>Use fixture.detectChanges()</li>
+        </ul>
+      </div>
+
+      <div class="practices-column">
+        <h3>E2E Testing</h3>
+        <ul>
+          <li>Test user workflows</li>
+          <li>Use page objects</li>
+          <li>Avoid implementation details</li>
+          <li>Test critical paths</li>
+          <li>Use data-testid attributes</li>
+          <li>Keep E2E tests minimal</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coverage Targets -->
+  <section class="coverage-section">
+    <h2>📈 Coverage Targets</h2>
+    
+    <div class="coverage-grid">
+      <div class="coverage-item">
+        <div class="coverage-metric">Statements</div>
+        <div class="coverage-target">80%</div>
+      </div>
+      <div class="coverage-item">
+        <div class="coverage-metric">Branches</div>
+        <div class="coverage-target">75%</div>
+      </div>
+      <div class="coverage-item">
+        <div class="coverage-metric">Functions</div>
+        <div class="coverage-target">80%</div>
+      </div>
+      <div class="coverage-item">
+        <div class="coverage-metric">Lines</div>
+        <div class="coverage-target">80%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Common Testing Patterns -->
+  <section class="patterns-section">
+    <h2>⭐ Common Testing Patterns</h2>
+    
+    <div class="pattern-cards">
+      <div class="pattern-card">
+        <h3>AAA Pattern</h3>
+        <p><strong>Arrange</strong> - Setup test data<br>
+           <strong>Act</strong> - Execute code<br>
+           <strong>Assert</strong> - Verify results</p>
+      </div>
+
+      <div class="pattern-card">
+        <h3>Page Object Pattern</h3>
+        <p>Encapsulate page selectors and interactions in a class to make E2E tests more maintainable.</p>
+      </div>
+
+      <div class="pattern-card">
+        <h3>Spy Pattern</h3>
+        <p>Use spies to track function calls, arguments, and return values without changing behavior.</p>
+      </div>
+
+      <div class="pattern-card">
+        <h3>Mock Pattern</h3>
+        <p>Replace real objects with mocks to isolate code under test and avoid dependencies.</p>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,116 @@
+<div class="demo-container">
+  <h1>🔧 Pipes in Angular</h1>
+  
+  <section class="concept-section">
+    <h2>What are Pipes?</h2>
+    <p>Pipes transform data for display in templates. They take input data and return formatted data.</p>
+    <div class="code-block">
+      <pre><code>{{ '{{ value | pipeName:parameter }}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>1. Built-in Pipes</h2>
+    
+    <div class="demo-box">
+      <h3>Date Pipe</h3>
+      <p><strong>Original:</strong> {{ currentDate }}</p>
+      <p><strong>Short:</strong> {{ currentDate | date:'short' }}</p>
+      <p><strong>Medium:</strong> {{ currentDate | date:'medium' }}</p>
+      <p><strong>Long:</strong> {{ currentDate | date:'long' }}</p>
+      <p><strong>Custom:</strong> {{ currentDate | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Time:</strong> {{ currentDate | date:'hh:mm:ss a' }}</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Currency Pipe</h3>
+      <p><strong>Default:</strong> {{ price | currency }}</p>
+      <p><strong>USD:</strong> {{ price | currency:'USD' }}</p>
+      <p><strong>EUR:</strong> {{ price | currency:'EUR' }}</p>
+      <p><strong>INR:</strong> {{ price | currency:'INR' }}</p>
+      <p><strong>With Symbol:</strong> {{ price | currency:'USD':'symbol':'1.2-2' }}</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Decimal & Percent Pipes</h3>
+      <p><strong>Decimal (2 places):</strong> {{ price | number:'1.2-2' }}</p>
+      <p><strong>Percent:</strong> {{ percentage | percent }}</p>
+      <p><strong>Percent (2 decimals):</strong> {{ percentage | percent:'1.2-2' }}</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Text Transformation Pipes</h3>
+      <p><strong>Original:</strong> {{ text }}</p>
+      <p><strong>Uppercase:</strong> {{ text | uppercase }}</p>
+      <p><strong>Lowercase:</strong> {{ text | lowercase }}</p>
+      <p><strong>Titlecase:</strong> {{ text | titlecase }}</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>JSON Pipe</h3>
+      <pre>{{ jsonObject | json }}</pre>
+    </div>
+
+    <div class="demo-box">
+      <h3>Slice Pipe (Array/String)</h3>
+      <p><strong>Items:</strong> {{ items | json }}</p>
+      <p><strong>First 3:</strong> {{ items | slice:0:3 | json }}</p>
+      <p><strong>Last 2:</strong> {{ items | slice:-2 | json }}</p>
+      <p><strong>String slice:</strong> {{ text | slice:0:5 }}</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. Custom Pipes</h2>
+    
+    <div class="demo-box">
+      <h3>Filter Pipe</h3>
+      <input type="text" [(ngModel)]="searchText" placeholder="Search items...">
+      <ul>
+        @for (item of items | filter:searchText; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    </div>
+
+    <div class="demo-box">
+      <h3>Truncate Pipe</h3>
+      <p><strong>Original:</strong> {{ longText }}</p>
+      <p><strong>Truncated (20 chars):</strong> {{ longText | truncate:20 }}</p>
+      <p><strong>Truncated (30 chars):</strong> {{ longText | truncate:30 }}</p>
+      <input type="number" [(ngModel)]="truncateLimit" min="10" max="100">
+      <p><strong>Dynamic:</strong> {{ longText | truncate:truncateLimit }}</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. Chaining Pipes</h2>
+    <p>You can chain multiple pipes together!</p>
+    <div class="demo-box">
+      <p><strong>Date + Uppercase:</strong> {{ currentDate | date:'full' | uppercase }}</p>
+      <p><strong>Currency + Lowercase:</strong> {{ (price | currency:'USD') | lowercase }}</p>
+    </div>
+  </section>
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    <div class="question-card">
+      <h3>Q: What's the difference between pure and impure pipes?</h3>
+      <p><strong>A:</strong> Pure pipes are only executed when Angular detects a change to the input value or parameters. 
+      Impure pipes are executed on every change detection cycle. By default, pipes are pure. 
+      Use impure pipes (set <code>pure: false</code>) when you need to detect changes in objects/arrays.</p>
+    </div>
+    <div class="question-card">
+      <h3>Q: Can you create custom pipes?</h3>
+      <p><strong>A:</strong> Yes! Create a class implementing <code>PipeTransform</code> interface, 
+      use <code>@Pipe</code> decorator, and implement the <code>transform</code> method. 
+      Register it in the component's imports (standalone) or module declarations.</p>
+    </div>
+    <div class="question-card">
+      <h3>Q: How do pipes differ from methods in templates?</h3>
+      <p><strong>A:</strong> Pipes are pure functions that transform data. Methods are called on every change detection, 
+      which can impact performance. Pipes are cached and only re-execute when inputs change (if pure). 
+      Use pipes for data transformation, methods for event handling.</p>
+    </div>
+  </section>
+</div>

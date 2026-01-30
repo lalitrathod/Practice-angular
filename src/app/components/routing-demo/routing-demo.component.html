@@ -1,0 +1,190 @@
+<div class="demo-container">
+  <h1>🧭 Routing & Navigation</h1>
+  
+  <section class="concept-section">
+    <h2>What is Angular Routing?</h2>
+    <p>Angular Router enables navigation from one view to the next as users perform application tasks. 
+    It maps URL paths to components and allows for deep linking, lazy loading, and route guards.</p>
+    <div class="code-block">
+      <pre><code>// Route configuration
+const routes: Routes = [{{ '{' }}
+  path: 'users/:id',
+  component: UserComponent
+{{ '}' }}];</code></pre>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>1. RouterLink Navigation</h2>
+    <p>Use <code>routerLink</code> directive for template-based navigation.</p>
+    
+    <div class="demo-box">
+      <h3>Basic Navigation</h3>
+      <div class="nav-buttons">
+        <a routerLink="/">Home</a>
+        <a routerLink="/learn/components">Components</a>
+        <a routerLink="/learn/services">Services</a>
+        <a routerLink="/learn/signals">Signals</a>
+      </div>
+    </div>
+
+    <div class="demo-box">
+      <h3>Navigation with Parameters</h3>
+      <a [routerLink]="['/learn/routing', '123']">Route with ID: 123</a>
+      <a [routerLink]="['/learn/routing', '456']">Route with ID: 456</a>
+    </div>
+
+    <div class="demo-box">
+      <h3>Navigation with Query Parameters</h3>
+      <a [routerLink]="['/learn/routing']" [queryParams]="{page: 1, sort: 'name'}">
+        With Query Params
+      </a>
+    </div>
+
+    <div class="demo-box">
+      <h3>Navigation with Fragment</h3>
+      <a [routerLink]="['/learn/routing']" fragment="section1">
+        With Fragment
+      </a>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. Programmatic Navigation</h2>
+    <p>Use Router service for programmatic navigation in component code.</p>
+    
+    <div class="demo-box">
+      <h3>Router Methods</h3>
+      <div class="button-group">
+        <button (click)="navigateToHome()">Navigate to Home</button>
+        <button (click)="navigateWithParams()">Navigate with Params</button>
+        <button (click)="navigateWithQueryParams()">Navigate with Query Params</button>
+        <button (click)="navigateWithFragment()">Navigate with Fragment</button>
+        <button (click)="navigateWithState()">Navigate with State</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. Route Parameters</h2>
+    <p>Access route parameters using ActivatedRoute service.</p>
+    
+    <div class="demo-box">
+      <h3>Current Route Information</h3>
+      <p><strong>Route Params:</strong> {{ routeParams | json }}</p>
+      <p><strong>Query Params:</strong> {{ queryParams | json }}</p>
+      <p><strong>Fragment:</strong> {{ fragment || 'None' }}</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>4. Route Configuration Types</h2>
+    
+    <div class="demo-box">
+      <h3>Basic Route</h3>
+      <pre><code>{{ '{' }}
+  path: 'home',
+  component: HomeComponent
+{{ '}' }}</code></pre>
+    </div>
+
+    <div class="demo-box">
+      <h3>Route with Parameters</h3>
+      <pre><code>{{ '{' }}
+  path: 'user/:id',
+  component: UserComponent
+{{ '}' }}</code></pre>
+      <p class="info">Access with: <code>route.params.subscribe(params => params.id)</code></p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Route with Query Parameters</h3>
+      <pre><code>{{ '{' }}
+  path: 'products',
+  component: ProductsComponent
+{{ '}' }}</code></pre>
+      <p class="info">Access with: <code>route.queryParams.subscribe(params => params.page)</code></p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Child Routes</h3>
+      <pre><code>{{ '{' }}
+  path: 'parent',
+  component: ParentComponent,
+  children: [{{ '{' }}
+    path: 'child',
+    component: ChildComponent
+  {{ '}' }}]
+{{ '}' }}</code></pre>
+    </div>
+
+    <div class="demo-box">
+      <h3>Lazy Loading</h3>
+      <pre><code>{{ '{' }}
+  path: 'admin',
+  loadChildren: () => import('./admin/admin.module')
+    .then(m => m.AdminModule)
+{{ '}' }}</code></pre>
+      <p class="info">✅ Loads module only when route is accessed - improves performance!</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>5. Router Outlet</h2>
+    <p><code>&lt;router-outlet&gt;</code> is where routed components are displayed.</p>
+    
+    <div class="demo-box">
+      <h3>Primary Outlet</h3>
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    
+    <div class="question-card">
+      <h3>Q: What is the difference between routerLink and Router.navigate()?</h3>
+      <p><strong>A:</strong> <code>routerLink</code> is a directive used in templates for declarative navigation. 
+      <code>Router.navigate()</code> is used programmatically in component code. Both achieve the same result, 
+      but routerLink is preferred for template-based navigation.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What are Route Guards?</h3>
+      <p><strong>A:</strong> Route guards are interfaces that control navigation. Types include:</p>
+      <ul>
+        <li><strong>CanActivate:</strong> Controls if route can be activated</li>
+        <li><strong>CanDeactivate:</strong> Controls if route can be deactivated</li>
+        <li><strong>CanLoad:</strong> Controls if module can be loaded (lazy loading)</li>
+        <li><strong>Resolve:</strong> Resolves data before route activation</li>
+      </ul>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What is Lazy Loading?</h3>
+      <p><strong>A:</strong> Lazy loading loads feature modules only when their routes are accessed, 
+      reducing initial bundle size and improving app startup time. Use <code>loadChildren</code> instead 
+      of <code>component</code> in route configuration.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: How do you pass data between routes?</h3>
+      <p><strong>A:</strong> Multiple ways:</p>
+      <ul>
+        <li><strong>Route Parameters:</strong> <code>/user/:id</code></li>
+        <li><strong>Query Parameters:</strong> <code>/products?page=1</code></li>
+        <li><strong>Route State:</strong> <code>router.navigate(['/path'], {{ '{' }} state: {{ '{' }} data {{ '}' }} {{ '}' }})</code></li>
+        <li><strong>Service:</strong> Shared service for complex data</li>
+      </ul>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What is the difference between ActivatedRoute and Router?</h3>
+      <p><strong>A:</strong></p>
+      <ul>
+        <li><strong>ActivatedRoute:</strong> Contains info about the current route (params, queryParams, data)</li>
+        <li><strong>Router:</strong> Service for navigation and route configuration</li>
+      </ul>
+    </div>
+  </section>
+</div>

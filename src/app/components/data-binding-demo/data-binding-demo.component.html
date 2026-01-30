@@ -1,0 +1,114 @@
+<div class="demo-container">
+  <h1>🔗 Data Binding in Angular</h1>
+  
+  <section class="concept-section">
+    <h2>1. Interpolation ({{ '{{ }}' }})</h2>
+    <p>Displays component data in the template.</p>
+    <div class="demo-box">
+      <p><strong>Title:</strong> {{ title }}</p>
+      <p><strong>Current Date:</strong> {{ currentDate | date:'full' }}</p>
+      <p><strong>Price:</strong> {{ price | currency:'USD' }}</p>
+      <p><strong>Expression:</strong> 5 + 3 = {{ 5 + 3 }}</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. Property Binding ([property])</h2>
+    <p>Binds component property to DOM element property.</p>
+    <div class="demo-box">
+      <img [src]="imageUrl" [alt]="title" class="angular-logo">
+      <br><br>
+      <button [disabled]="buttonDisabled">Disabled Button</button>
+      <button (click)="buttonDisabled = !buttonDisabled">Toggle Disabled</button>
+      <br><br>
+      <input [value]="inputValue" (input)="inputValue = $any($event.target).value" placeholder="Type here...">
+      <p>Input value: {{ inputValue }}</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. Event Binding ((event))</h2>
+    <p>Listens to DOM events and executes component methods.</p>
+    <div class="demo-box">
+      <button (click)="onButtonClick()">Click Me!</button>
+      <p>Click count: {{ clickCount }}</p>
+      <br>
+      <div class="mouse-tracker" (mousemove)="onMouseMove($event)">
+        <p>Move your mouse here</p>
+        <p>Position: X={{ mousePosition.x }}, Y={{ mousePosition.y }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>4. Two-Way Binding ([(ngModel)])</h2>
+    <p>Combines property and event binding for two-way data flow.</p>
+    <div class="demo-box">
+      <div class="form-group">
+        <label>Name:</label>
+        <input [(ngModel)]="userName" placeholder="Enter your name">
+        <p>You entered: {{ userName() }}</p>
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input [(ngModel)]="email" type="email" placeholder="Enter your email">
+        <p>Email: {{ email() }}</p>
+      </div>
+      <div class="form-group">
+        <label>Favorite Color:</label>
+        <select [(ngModel)]="selectedColor">
+          <option value="red">Red</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+        </select>
+        <p>Selected: {{ selectedColor() }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>5. Class & Style Binding</h2>
+    <p>Dynamically set CSS classes and styles.</p>
+    <div class="demo-box">
+      <p [class.highlight]="isHighlighted" [style.font-size.px]="fontSize">
+        This text can be highlighted and resized!
+      </p>
+      <div class="button-group">
+        <button (click)="toggleHighlight()">Toggle Highlight</button>
+        <button (click)="increaseFont()">Increase Font</button>
+        <button (click)="decreaseFont()">Decrease Font</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>6. Calculator Example (Two-Way Binding)</h2>
+    <div class="demo-box calculator">
+      <input type="number" [(ngModel)]="num1" placeholder="Number 1">
+      <span> + </span>
+      <input type="number" [(ngModel)]="num2" placeholder="Number 2">
+      <button (click)="calculate()">Calculate</button>
+      <p class="result">Result: {{ result() }}</p>
+    </div>
+  </section>
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    <div class="question-card">
+      <h3>Q: What are the different types of data binding in Angular?</h3>
+      <p><strong>A:</strong> There are 4 types:</p>
+      <ul>
+        <li><strong>Interpolation:</strong> {{ '{{ }}' }} - One-way (Component to View)</li>
+        <li><strong>Property Binding:</strong> [property] - One-way (Component to View)</li>
+        <li><strong>Event Binding:</strong> (event) - One-way (View to Component)</li>
+        <li><strong>Two-way Binding:</strong> [(ngModel)] - Two-way (Component ↔ View)</li>
+      </ul>
+    </div>
+    <div class="question-card">
+      <h3>Q: What's the difference between [value] and [(ngModel)]?</h3>
+      <p><strong>A:</strong> [value] is one-way property binding (component to view). 
+      [(ngModel)] is two-way binding that combines [value] and (input) event, 
+      automatically updating both the component property and the view.</p>
+    </div>
+  </section>
+</div>

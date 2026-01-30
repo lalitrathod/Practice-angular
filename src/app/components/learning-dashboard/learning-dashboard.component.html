@@ -1,0 +1,87 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1 class="header-title">🎓 Angular Learning Hub</h1>
+  </header>
+
+  <div class="stats-section">
+    <div class="stat-card">
+      <div class="stat-number">18+</div>
+      <div class="stat-label">Topics Covered</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">4</div>
+      <div class="stat-label">Learning Levels</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Themes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Interactive</div>
+    </div>
+  </div>
+
+  <div class="modules-section">
+    <h2 class="section-title">📚 Learning Modules</h2>
+    <div class="modules-grid">
+      @for (module of learningModules; track module.level) {
+        <div class="module-card" [ngClass]="'level-' + $index">
+          <div class="module-header">
+            <span class="level-badge">Level {{ $index + 1 }}</span>
+            <span class="topic-count">{{ module.topics.length }} topics</span>
+          </div>
+          <h2>{{ module.level }}</h2>
+          <ul class="topics-list">
+            @for (topic of module.topics; track topic.name) {
+              <li>
+                <a [routerLink]="topic.route" class="topic-link">
+                  <span class="link-dot"></span>
+                  <span class="topic-name">{{ topic.name }}</span>
+                  @if (topic.completed) {
+                    <span class="completed-badge">✓ Completed</span>
+                  }
+                </a>
+              </li>
+            }
+          </ul>
+          <div class="module-footer">
+            <div class="progress-indicator">
+              <div class="progress-value">{{ (module.topics | slice:0:1).length }} / {{ module.topics.length }}</div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="quick-links-section">
+    <h2 class="section-title">🚀 Quick Access</h2>
+    <div class="links-grid">
+      <a href="https://angular.dev" target="_blank" class="quick-link docs-link">
+        <div class="link-icon">📚</div>
+        <div class="link-content">
+          <h3>Official Docs</h3>
+          <p>Angular documentation</p>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      <a href="https://angular.dev/tutorials" target="_blank" class="quick-link tutorial-link">
+        <div class="link-icon">🎯</div>
+        <div class="link-content">
+          <h3>Tutorials</h3>
+          <p>Learn by building</p>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      <a [routerLink]="['/learn/interview']" class="quick-link interview-link">
+        <div class="link-icon">💼</div>
+        <div class="link-content">
+          <h3>Interview Prep</h3>
+          <p>Common questions</p>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</div>

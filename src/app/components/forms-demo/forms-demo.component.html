@@ -1,0 +1,234 @@
+<div class="demo-container">
+  <h1>📝 Forms in Angular</h1>
+  
+  <section class="concept-section">
+    <h2>What are Forms?</h2>
+    <p>Angular provides two approaches to handling user input: Template-driven forms and Reactive forms. 
+    Both capture user input events, validate the input, create form models, and provide ways to track changes.</p>
+  </section>
+
+  <section class="concept-section">
+    <h2>1. Template-Driven Forms</h2>
+    <p>Forms built in the template using directives. Simpler but less flexible.</p>
+    
+    <div class="demo-box">
+      <h3>Simple Template Form</h3>
+      <form #form="ngForm" (ngSubmit)="onSubmitTemplateForm()">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" name="name" [(ngModel)]="formData.name" required>
+        </div>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" name="email" [(ngModel)]="formData.email" required>
+        </div>
+        <div class="form-group">
+          <label>Age:</label>
+          <input type="number" name="age" [(ngModel)]="formData.age">
+        </div>
+        <button type="submit" [disabled]="!form.valid">Submit</button>
+        <button type="button" (click)="resetTemplateForm()">Reset</button>
+      </form>
+      <p><strong>Form Valid:</strong> {{ form.valid ? 'Yes' : 'No' }}</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>2. Reactive Forms</h2>
+    <p>Forms built programmatically in the component. More powerful and testable.</p>
+    
+    <div class="demo-box">
+      <h3>Reactive Form with Validation</h3>
+      <form [formGroup]="reactiveForm" (ngSubmit)="onSubmitReactiveForm()">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" formControlName="name">
+          @if (f['name'].touched && f['name'].invalid) {
+            <div class="error-message">
+              @if (f['name'].errors?.['required']) {
+                Name is required
+              }
+              @if (f['name'].errors?.['minlength']) {
+                Name must be at least 3 characters
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" formControlName="email">
+          @if (f['email'].touched && f['email'].invalid) {
+            <div class="error-message">
+              @if (f['email'].errors?.['required']) {
+                Email is required
+              }
+              @if (f['email'].errors?.['email']) {
+                Invalid email format
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Age:</label>
+          <input type="number" formControlName="age">
+          @if (f['age'].touched && f['age'].invalid) {
+            <div class="error-message">
+              @if (f['age'].errors?.['required']) {
+                Age is required
+              }
+              @if (f['age'].errors?.['min']) {
+                Age must be at least 18
+              }
+              @if (f['age'].errors?.['max']) {
+                Age must be less than 100
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Password:</label>
+          <input type="password" formControlName="password">
+          @if (f['password'].touched && f['password'].invalid) {
+            <div class="error-message">
+              @if (f['password'].errors?.['required']) {
+                Password is required
+              }
+              @if (f['password'].errors?.['passwordStrength']) {
+                Password must contain uppercase, lowercase, number, and special character
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password:</label>
+          <input type="password" formControlName="confirmPassword">
+          @if (f['confirmPassword'].touched && reactiveForm.errors?.['passwordMismatch']) {
+            <div class="error-message">Passwords do not match</div>
+          }
+        </div>
+
+        <button type="submit" [disabled]="!reactiveForm.valid">Submit</button>
+        <button type="button" (click)="resetReactiveForm()">Reset</button>
+      </form>
+      <p><strong>Form Valid:</strong> {{ reactiveForm.valid ? 'Yes' : 'No' }}</p>
+      <p><strong>Form Value:</strong> {{ reactiveForm.value | json }}</p>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>3. Dynamic Forms with FormArray</h2>
+    <p>Create forms with dynamic fields using FormArray.</p>
+    
+    <div class="demo-box">
+      <h3>Dynamic Hobbies Form</h3>
+      <form [formGroup]="dynamicForm" (ngSubmit)="onSubmitDynamicForm()">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" formControlName="name">
+        </div>
+
+        <div formArrayName="hobbies">
+          <h4>Hobbies:</h4>
+          @for (hobby of hobbies.controls; track $index) {
+            <div [formGroupName]="$index" class="hobby-group">
+              <input type="text" formControlName="name" placeholder="Hobby name">
+              <input type="number" formControlName="years" placeholder="Years">
+              <button type="button" (click)="removeHobby($index)" [disabled]="hobbies.length === 1">Remove</button>
+            </div>
+          }
+        </div>
+
+        <button type="button" (click)="addHobby()">Add Hobby</button>
+        <button type="submit" [disabled]="!dynamicForm.valid">Submit</button>
+        <button type="button" (click)="resetDynamicForm()">Reset</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="concept-section">
+    <h2>4. Form Validation</h2>
+    
+    <div class="demo-box">
+      <h3>Built-in Validators</h3>
+      <ul>
+        <li><code>Validators.required</code> - Field is required</li>
+        <li><code>Validators.email</code> - Valid email format</li>
+        <li><code>Validators.minLength(n)</code> - Minimum length</li>
+        <li><code>Validators.maxLength(n)</code> - Maximum length</li>
+        <li><code>Validators.min(n)</code> - Minimum value</li>
+        <li><code>Validators.max(n)</code> - Maximum value</li>
+        <li><code>Validators.pattern(regex)</code> - Pattern matching</li>
+      </ul>
+    </div>
+
+    <div class="demo-box">
+      <h3>Custom Validators</h3>
+      <p>Create custom validation functions for specific requirements.</p>
+      <pre><code>passwordValidator(control: AbstractControl): ValidationErrors | null {{ '{' }}
+  // Custom validation logic
+  return valid ? null : {{ '{' }} passwordStrength: true {{ '}' }};
+{{ '}' }}</code></pre>
+    </div>
+
+    <div class="demo-box">
+      <h3>Cross-Field Validators</h3>
+      <p>Validate multiple fields together (e.g., password confirmation).</p>
+      <pre><code>passwordMatchValidator(control: AbstractControl): ValidationErrors | null {{ '{' }}
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+  return password?.value === confirmPassword?.value 
+    ? null : {{ '{' }} passwordMismatch: true {{ '}' }};
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  @if (submittedData()) {
+    <section class="concept-section">
+      <h2>5. Submitted Data</h2>
+      <div class="demo-box">
+        <h3>{{ submittedData()?.type }} Form Submitted</h3>
+        <pre>{{ submittedData()?.data | json }}</pre>
+      </div>
+    </section>
+  }
+
+  <section class="interview-questions">
+    <h2>💼 Interview Questions</h2>
+    
+    <div class="question-card">
+      <h3>Q: What's the difference between Template-driven and Reactive forms?</h3>
+      <p><strong>A:</strong></p>
+      <ul>
+        <li><strong>Template-driven:</strong> Forms defined in template, uses directives, simpler, less testable</li>
+        <li><strong>Reactive:</strong> Forms defined in component, uses FormBuilder, more powerful, testable, better for complex forms</li>
+      </ul>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What is FormArray?</h3>
+      <p><strong>A:</strong> FormArray is used to manage an array of FormControls, FormGroups, or FormArrays. 
+      It's useful for dynamic forms where the number of fields can change (e.g., adding/removing items).</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: How do you create custom validators?</h3>
+      <p><strong>A:</strong> Create a function that takes an AbstractControl and returns ValidationErrors | null. 
+      Return null if valid, or an object with error keys if invalid.</p>
+    </div>
+    
+    <div class="question-card">
+      <h3>Q: What are the form states?</h3>
+      <p><strong>A:</strong></p>
+      <ul>
+        <li><strong>valid/invalid:</strong> Whether form/control is valid</li>
+        <li><strong>pristine/dirty:</strong> Whether value has been changed</li>
+        <li><strong>touched/untouched:</strong> Whether control has been focused</li>
+        <li><strong>pending:</strong> Whether async validation is in progress</li>
+      </ul>
+    </div>
+  </section>
+</div>
